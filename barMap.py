@@ -25,15 +25,13 @@ class AnimationEvent:
                     return True
         return False
     
-    def update(self):
+    def update(self, speed = 1):
         nowTime = time.time()
         delta = nowTime - self.lastTime
         self.lastTime = nowTime
 
         if not self.hasReachedTarget():
-             #translation = transforms.Affine2D().translate(self.direction * 0.0005, 0)
-             #self.barPatch.set_transform(translation + self.barPatch.get_transform())
-             self.barPatch.set_x(self.barPatch.get_x() + (self.direction * delta * 10))
+             self.barPatch.set_x(self.barPatch.get_x() + (self.direction * delta * speed)) #set speed here
              self.barPatch.set_color('red')
         else:
 
@@ -56,6 +54,9 @@ class BarMap:
     def HasAnimations(self):
          return len(self.allAnimations) > 0
     
+    def SetColorForValue(self, value, color):
+         self.barDictionary[value].set_color(color)
+    
     def IsIdle(self):
          return len(self.allAnimations) == 0
     
@@ -66,9 +67,10 @@ class BarMap:
         self.MoveBarByYValue(second, self.GetBarCenterXForValue(first))
          
 
-    def Update(self):
+    def Update(self, barSpeed = 1):
+        #print(f"Animations {len(self.allAnimations)}")
         for anim in self.allAnimations:
-            anim.update()
+            anim.update(barSpeed)
             if anim.completed:
                  self.allAnimations.remove(anim)
 
