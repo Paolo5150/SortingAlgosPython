@@ -36,6 +36,7 @@ class AnimationEvent:
         else:
 
              self.barPatch.set_color('blue')
+
              self.barPatch.set_x(self.targetX -  self.barPatch.get_width() * 0.5)
              self.completed = True        
 
