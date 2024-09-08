@@ -50,11 +50,21 @@ class BarMap:
     def MoveBarByYValue(self, barValue: int, targetXValue):
         self.allAnimations.append(AnimationEvent(self.barDictionary[barValue], targetX= targetXValue))
 
+    def GetBarCenterXForValue(self, value):
+         return self.barDictionary[value].get_center()[0]
+
     def HasAnimations(self):
          return len(self.allAnimations) > 0
     
     def IsIdle(self):
          return len(self.allAnimations) == 0
+    
+    #Automaticall adds 2 animation that swap the bars of 2 given values
+    #The two values are the Ys of the bars
+    def AnimateSwap(self, first, second):
+        self.MoveBarByYValue(first, self.GetBarCenterXForValue(second))
+        self.MoveBarByYValue(second, self.GetBarCenterXForValue(first))
+         
 
     def Update(self):
         for anim in self.allAnimations:
