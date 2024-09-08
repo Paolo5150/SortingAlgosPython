@@ -1,3 +1,4 @@
+import time
 from typing import List
 import matplotlib.patches
 import matplotlib.transforms as transforms
@@ -8,6 +9,7 @@ class AnimationEvent:
         self.barPatch = barPatch
         self.targetX = targetX
         self.direction = 1;
+        self.lastTime = time.time()
         self.completed = False
         if targetX < self.barPatch.get_x():
             self.direction = -1
@@ -24,14 +26,17 @@ class AnimationEvent:
         return False
     
     def update(self):
+        nowTime = time.time()
+        delta = nowTime - self.lastTime
+        self.lastTime = nowTime
 
         if not self.hasReachedTarget():
              #translation = transforms.Affine2D().translate(self.direction * 0.0005, 0)
              #self.barPatch.set_transform(translation + self.barPatch.get_transform())
-             self.barPatch.set_x(self.barPatch.get_x() + (self.direction * 0.05))
+             self.barPatch.set_x(self.barPatch.get_x() + (self.direction * delta * 10))
              self.barPatch.set_color('red')
         else:
-             print('reached')
+
              self.barPatch.set_color('blue')
              self.barPatch.set_x(self.targetX -  self.barPatch.get_width() * 0.5)
              self.completed = True        
