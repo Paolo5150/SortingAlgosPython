@@ -32,11 +32,7 @@ class AnimationEvent:
 
         if not self.hasReachedTarget():
              self.barPatch.set_x(self.barPatch.get_x() + (self.direction * delta * speed)) #set speed here
-             self.barPatch.set_color('red')
         else:
-
-             self.barPatch.set_color('blue')
-
              self.barPatch.set_x(self.targetX -  self.barPatch.get_width() * 0.5)
              self.completed = True        
 
